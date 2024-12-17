@@ -9,13 +9,40 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/themes/dark.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script>
+        var settings = {};
+        const AVAILABLE_PACKEGES = ['aiohttp', 'aiosignal', 'altair', 'annotated-types', 'asciitree', 'astropy', 'astropy_iers_data', 'asttokens', 'async-timeout', 'atomicwrites', 'attrs', 'autograd', 'awkward-cpp', 'b2d', 'bcrypt', 'beautifulsoup4', 'biopython', 'bitarray', 'bitstring', 'bleach', 'bokeh', 'boost-histogram', 'brotli', 'cachetools', 'Cartopy', 'cbor-diag', 'certifi', 'cffi', 'cffi_example', 'cftime', 'charset-normalizer', 'clarabel', 'click', 'cligj', 'cloudpickle', 'cmyt', 'colorspacious', 'contourpy', 'coolprop', 'coverage', 'cramjam', 'crc32c', 'cryptography', 'cssselect', 'cvxpy-base', 'cycler', 'cysignals', 'cytoolz', 'decorator', 'demes', 'deprecation', 'distlib', 'docutils', 'ewah_bool_utils', 'exceptiongroup', 'executing', 'fastparquet', 'fiona', 'fonttools', 'freesasa', 'frozenlist', 'fsspec', 'future', 'galpy', 'gensim', 'geopandas', 'gmpy2', 'gsw', 'h5py', 'html5lib', 'idna', 'igraph', 'imageio', 'iniconfig', 'ipython', 'jedi', 'Jinja2', 'joblib', 'jsonschema', 'jsonschema_specifications', 'kiwisolver', 'lakers-python', 'lazy-object-proxy', 'lazy_loader', 'libcst', 'lightgbm', 'logbook', 'lxml', 'MarkupSafe', 'matplotlib', 'matplotlib-inline', 'matplotlib-pyodide', 'memory-allocator', 'micropip', 'mmh3', 'mne', 'more-itertools', 'mpmath', 'msgpack', 'msgspec', 'msprime', 'multidict', 'munch', 'mypy', 'netcdf4', 'networkx', 'newick', 'nh3', 'nlopt', 'nltk', 'numcodecs', 'numpy', 'opencv-python', 'optlang', 'orjson', 'packaging', 'pandas', 'parso', 'patsy', 'peewee', 'Pillow', 'pillow_heif', 'pkgconfig', 'pluggy', 'pplpy', 'primecountpy', 'prompt_toolkit', 'protobuf', 'pure_eval', 'py', 'pyclipper', 'pycparser', 'pycryptodome', 'pydantic', 'pydantic_core', 'pyerfa', 'pygame-ce', 'Pygments', 'pyheif', 'pyiceberg', 'pyinstrument', 'pynacl', 'pyodide-http', 'pyparsing', 'pyproj', 'pyrsistent', 'pysam', 'pyshp', 'pytest', 'pytest-asyncio', 'pytest-benchmark', 'python-dateutil', 'python-flint', 'python-magic', 'python-sat', 'python_solvespace', 'pytz', 'pywavelets', 'pyxel', 'pyxirr', 'pyyaml', 'rebound', 'reboundx', 'referencing', 'regex', 'requests', 'retrying', 'rich', 'river', 'RobotRaconteur', 'rpds-py', 'ruamel.yaml', 'rust-panic-test', 'scikit-image', 'scikit-learn', 'scipy', 'screed', 'setuptools', 'shapely', 'simplejson', 'sisl', 'six', 'smart_open', 'sortedcontainers', 'soupsieve', 'sourmash', 'sparseqr', 'sqlalchemy', 'stack_data', 'statsmodels', 'strictyaml', 'svgwrite', 'swiglpk', 'sympy', 'tblib', 'termcolor', 'texttable', 'threadpoolctl', 'tomli', 'tomli-w', 'toolz', 'tqdm', 'traitlets', 'traits', 'tskit', 'typing-extensions', 'tzdata', 'uncertainties', 'unyt', 'urllib3', 'wcwidth', 'webencodings', 'wordcloud', 'wrapt', 'xarray', 'xgboost', 'xlrd', 'xxhash', 'xyzservices', 'yarl', 'yt', 'zarr', 'zengl', 'zstandard']
 
-    <title>My Bootstrap Page</title>
+        function data_setup() {
+            //localStorageにデータがある場合は、settingsに代入
+            if (localStorage.getItem("settings")) {
+                settings = JSON.parse(localStorage.getItem("settings"));
+            }
+            else {
+                settings = {
+                    "theme": "vs-dark",
+                    "file_system": "MEMFS",
+                    "IDBFS_save": false,
+                    "python_timeout": 2000,
+                    "python_package": []
+                }
+                localStorage.setItem("settings", JSON.stringify(settings));
+            }
+        }
+        data_setup();
+
+        function save_data() {
+            localStorage.setItem("settings", JSON.stringify(settings));
+        }
+    </script>
+    <title>py-webiter</title>
 </head>
 
 <style>
     :root {
-        --header_size: 23px;
+        --header_size: 25px;
+        --tool_height: 23px;
+        --alert_size: 50vw;
     }
 
     #console {
@@ -48,20 +75,21 @@
         --max: 50%;
     }
 
-    #h_column div {
-        /*flex itemの幅を均等にする*/
+    .settings_title {
+        /*文字の大きさを15pxにする*/
+        font-size: 15px;
+    }
 
-        /*中央寄せ*/
+    .btn-menu {
+        /*flex itemの幅を均等にする*/
         display: flex;
-        justify-content: center;
+
         align-items: center;
 
         /*1pxの#36363Bの線を引く*/
         border-right: 1px solid #36363B;
 
-        /*padding-left: 10px;
-        padding-right: 10px;*/
-        width: 80px;
+        width: 100px;
 
         /*文字の大きさを15pxにする*/
         font-size: 15px;
@@ -72,14 +100,28 @@
     }
 
     /*h_columnのdivにの要素に当たった時のスタイル*/
-    #h_column div:hover {
+    .btn-menu:hover {
         background-color: #3e3e3f;
     }
 
+    /*py-runのスタイル*/
+    #py-run {
+        /*flex itemの幅を均等にする*/
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 80px;
+        /*文字の大きさを15pxにする*/
+        font-size: 20px;
+        /*poimterカーソルにする*/
+        cursor: pointer;
+    }
+
+    /*tools(folder関連)のスタイル*/
     #tools {
         /*text-sizeを15pxにする*/
-        font-size: 15px;
-        height: 23px;
+        font-size: calc(var(--tool_height) - 5px);
+        height: var(--tool_height);
         /*下にborderを引く*/
         border-bottom: 1px solid #36363B;
     }
@@ -97,73 +139,717 @@
     #tools div:hover {
         background-color: #3e3e3f;
     }
+
+    #new_file_folder {
+
+
+        /*文字色を#ffffffにする*/
+        color: #ffffff;
+        /*幅を100%にする*/
+        width: 100%;
+        /*高さを23pxにする*/
+        height: 23px;
+        /*文字の大きさを15pxにする*/
+        font-size: 15px;
+    }
+
+    #p-folder {
+        /*高さをcalc(100% - 23px)にする*/
+        height: calc(100% - var(--tool_height));
+        /*overflowをautoにする*/
+        overflow: auto;
+    }
+
+    #p-alert,
+    #p-alert_info {
+        flex: 1;
+        position: absolute;
+        /* 要素の位置を絶対位置に指定 */
+        top: -20vh;
+        /* 上部から50pxの位置に設定 */
+        left: calc(50vw - var(--alert_size)/2);
+        /* 左から50vwの位置に設定 */
+        z-index: 1000;
+        /* 他の要素よりも手前に表示 */
+        width: var(--alert_size);
+        transition: 1s all;
+
+
+    }
+
+    .settings {
+        margin-bottom: 10px;
+    }
+
+
+    .alert-mark {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /*文字の大きさを15pxにする*/
+        font-size: 20px;
+    }
+
+    .alert-body {
+        display: flex;
+
+        align-items: center;
+    }
+
+    .folder {
+        padding-left: 5px;
+    }
+
+    .file {
+        padding-left: 5px;
+    }
+
+    .alldir {
+        height: 23px;
+        font-size: 15px;
+        cursor: pointer;
+    }
+
+    .alldir:hover {
+        background-color: #3e3e3f;
+    }
+
+    .alldir_click {
+        background-color: #3e3e3f;
+    }
+
+    /*画像表示設定*/
+    #show_img {
+        display: inline-block;
+        background-color: #ccc;
+        background-position: center center;
+        background-repeat: no-repeat;
+        margin: 5px;
+        width: 100%;
+        height: 100%;
+        border: 1px solid #ccc;
+        background-size: contain;
+
+    }
+
+    /*chatのスタイル*/
+    .line-bc {
+        padding: 20px 10px;
+        width: 100%;
+        height: 100%;
+        text-align: right;
+        font-size: 14px;
+        background: white;
+        overflow-y: auto;
+        overflow-x: hidden;
+
+    }
+
+    /*以下、②左側のコメント*/
+    .balloon6 {
+        width: 100%;
+        margin: 10px 0;
+        overflow: hidden;
+    }
+
+    .balloon6 .faceicon {
+        float: left;
+        margin-right: -50px;
+        width: 40px;
+    }
+
+    .balloon6 .faceicon img {
+        width: 100%;
+        height: auto;
+        border-radius: 50%;
+    }
+
+    .balloon6 .chatting {
+        width: 100%;
+        text-align: left;
+    }
+
+    .says {
+        display: inline-block;
+        position: relative;
+        margin: 0 0 0 50px;
+        padding: 10px;
+        max-width: 250px;
+        border-radius: 12px;
+        background: #d2d2d2
+    }
+
+    .says:after {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        top: 3px;
+        left: -19px;
+        border: 8px solid transparent;
+        border-right: 18px solid #d2d2d2;
+        -webkit-transform: rotate(35deg);
+        transform: rotate(35deg);
+    }
+
+    .says p {
+        margin: 0;
+        padding: 0;
+    }
+
+    /*以下、③右側の緑コメント*/
+    .mycomment {
+        margin: 10px 0;
+    }
+
+    .mycomment p {
+        display: inline-block;
+        position: relative;
+        margin: 0 10px 0 0;
+        padding: 8px;
+        max-width: 250px;
+        border-radius: 12px;
+        background: #d2d2d2;
+        font-size: 15px;
+    }
+
+    .mycomment p:after {
+        content: "";
+        position: absolute;
+        top: 3px;
+        right: -19px;
+        border: 8px solid transparent;
+        border-left: 18px solid #d2d2d2;
+        -webkit-transform: rotate(-35deg);
+        transform: rotate(-35deg);
+    }
+
+
+    /*folderのスタイル*/
 </style>
 
-
 <body>
+    <div id="p-alert">
+        <sl-alert variant="warning" open class="exclamation-triangle">
+            <div class="container">
+                <div class="row">
+                    <div class="col-1 alert-mark text-warning">
+                        <i class="bi bi-exclamation-triangle"></i>
+                    </div>
+                    <div class="col-11 alert-body">
+                    </div>
+                </div>
+            </div>
+        </sl-alert>
+    </div>
+    <div id="p-alert_info">
+
+        <sl-alert variant="primary" open>
+            <div class="container">
+                <div class="row">
+                    <div class="col-1 alert-mark text-primary">
+                        <i class="bi bi-info-circle"></i>
+                    </div>
+                    <div class="col-11 alert-body">
+                    </div>
+                </div>
+            </div>
+        </sl-alert>
+    </div>
+
+
+
+
+
+
 
 
     <div id="header">
-        <div id="h_column" class="d-flex flex-row">
-            <div class="ms-3" style="border-left: 1px solid #36363B;">Home</div>
-            <div>File</div>
-            <div>Setting</div>
+        <div id="h_column" class="d-flex justify-content-between">
+
+            <div class="d-flex flex-row">
+                <div class="btn-menu d-flex justify-content-center align-items-center ms-2"
+                    style="border-left: 1px solid #36363B;" onclick="change_frame('setting_fram')">
+                    <div class="">
+                        <i class="bi bi-gear me-1"></i>settings
+                    </div>
+
+                </div>
+                <div class="btn-menu d-flex justify-content-center align-items-center" onclick="fullScreenChange()">
+                    <div class="">
+                        <i class="bi bi-display me-1"></i>fullscreen
+                    </div>
+                </div>
+                <div class="btn-menu d-flex justify-content-center align-items-center" onclick="open_chat()">
+                    <div class="">
+                        <i class="bi bi-chat-right-text me-1"></i> AI
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div id="py-run">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                        class="bi bi-play" viewBox="0 0 16 16" onclick="python_run()">
+                        <path
+                            d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
+                    </svg>
+                </div>
+            </div>
+            <!-- 右寄せ -->
         </div>
     </div>
     <sl-split-panel id="main_fram" position-in-pixels="200" style="--min: 200px; --max: 50%;">
         <div slot="start" style="height: 100%; background: var(--sl-color-neutral-50);">
             <div id="tools" class="d-flex flex-row">
-                <div>
+                <div onclick="newFile()">
                     <i class="bi bi-file-earmark-plus"></i>
                 </div>
-                <div>
+                <div onclick="newFolder()">
                     <i class="bi bi-folder-plus"></i>
                 </div>
-                <div>
+                <div onclick="event_input()">
+                    <i class="bi bi-file-arrow-up" type="file"></i>
+                    <input type="file" id="read_local_file" style="display: none;">
+                </div>
+                <div onclick="sync_file()">
                     <i class="bi bi-arrow-clockwise"></i>
+                </div>
+            </div>
+            <div id="p-folder">
+                <div id="folderlist" style=" overflow-y: auto;">
+
+
                 </div>
 
             </div>
+
         </div>
         <div slot="end" style="height: 100%; background: var(--sl-color-neutral-50); overflow: hidden;">
             <sl-split-panel vertical style="height: 100%;" position="80">
                 <div slot="start" style="height: 100%; background: var(--sl-color-neutral-50);  overflow: hidden">
-                    <sl-split-panel position="100" style="height: 100%;">
+                    <sl-split-panel id="editor_chat" position="100" style="height: 100%;" disabled>
+                        <!-- エディター表示用 -->
                         <div slot="start"
                             style="height:100%; background: var(--sl-color-neutral-50); overflow: hidden;">
-                            <div id="editor" style="height: 100%;"></div>
+
+                            <div id="editor" style="height: 100%;" hidden></div>
+                            <div id="image_fram" class="w-100 h-100 d-flex" hidden>
+                                <div id="show_img" hidden></div>
+                                <div id="setting_fram" hidden>
+                                    <!-- 設定項目
+                                        説明
+                                        設定値の順で記述(クラスにsettingsを追加) -->
+                                    <div class="settings mx-3">
+                                        <div class="theme mt-2">
+                                            <div class="settings_title">Theme</div>
+                                            <!-- 説明を記述 -->
+                                            <div class="settings_content">Monaco Editorのテーマを設定します。</div>
+                                            <div class="settings_input">
+                                                <select id="theme" class="settings">
+                                                    <option value="vs-dark">vs-dark</option>
+                                                    <option value="vs">vs</option>
+                                                    <option value="hc-black">hc-black</option>
+                                                    <option value="hc-light">hc-light</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="settings mx-3">
+                                        <div class="theme mt-2">
+                                            <div class="settings_title">File System</div>
+                                            <!-- 説明を記述 -->
+                                            <div class="settings_content">
+                                                ファイルシステムを設定します。(IDBSF=永続,MEMFS=一時,NATIVEFS=ローカル)</div>
+                                            <div class="settings_input">
+                                                <select id="file_system" class="settings">
+                                                    <option value="MEMFS">MEMFS</option>
+                                                    <option value="IDBFS">IDBFS</option>
+                                                    <option value="NATIVEFS">NATIVEFS</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="settings mx-3">
+                                        <div class="theme mt-2">
+                                            <div class="settings_title">IDBFS Save</div>
+                                            <!-- 説明を記述 -->
+                                            <div class="settings_content">IDBFSを初期化する。</div>
+                                            <div class="settings_input">
+                                                <button id="IDBFS_save" class="settings">formatting</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="settings mx-3">
+                                        <div class="theme mt-2">
+                                            <div class="settings_title">Import Package</div>
+                                            <!-- 説明を記述 -->
+                                            <div class="settings_content">
+                                                pyodideのimportするパッケージを,区切りで設定します。インポートできるパッケージは<a
+                                                    href="https://pyodide.org/en/stable/usage/packages-in-pyodide.html"
+                                                    target="_blank">こちら</a>を参照してください。</div>
+                                            <div class="settings_input">
+                                                <textarea id="python_package" class="settings"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <!-- <div class="settings mx-3">
+                                        <div class="theme mt-2">
+                                            <div class="settings_title">Python Timeout</div>
+                                           
+                                            <div class="settings_content">Pythonのタイムアウト時間を設定します。</div>
+                                            <div class="settings_input">
+                                                <input type="number" id="python_timeout" class="settings" value="10000">
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                </div>
+
+                            </div>
+                            <div id="setting_fram" class="w-100 h-100" style="background-color: #ccc;">
+
+                            </div>
+                        </div>
+
+
+                        <div id="chat" slot="end" class="chat_style h-100">
+                            <div class="line-bc"><!--①LINE会話全体を囲う-->
+
+                                <!--②左コメント始-->
+                                <div class="balloon6">
+                                    <div class="faceicon">
+                                        <img src="img/robot.png" alt="ai">
+                                    </div>
+                                    <div class="chatting">
+                                        <div class="says">
+                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, enim.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--②/左コメント終-->
+
+                                <!--③右コメント始-->
+                                <div class="mycomment">
+                                    <p>
+                                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nobis eum possimus quas deleniti quae deserunt asperiores illum repudiandae et nostrum nesciunt accusantium, accusamus voluptatibus laborum reprehenderit! Vero aspernatur voluptates quas!
+                                    </p>
+                                </div>
+                                <!--/③右コメント終-->
+
+                            </div>
 
                         </div>
-                        <div slot="end" style="height: 100%; background: var(--sl-color-neutral-50);">
-                            End
-                        </div>
+
+
                     </sl-split-panel>
                 </div>
-                <div id="console" slot="end" style="height: 100%; background: var(--sl-color-neutral-50);">
-
+                <!-- コンソール表示用 -->
+                <div id="console" slot="end"
+                    style="height: 100%; background: var(--sl-color-neutral-50);overflow-y: auto;">
+                    <p>~Pyodide is loading...</p>
                 </div>
             </sl-split-panel>
         </div>
     </sl-split-panel>
 
+    <div class="modal fade" id="startFS" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content d-flex justify-content-center align-items-center">
+                <button type="button" class="btn btn-success m-5" onclick="nativeFS_open()">open local file</button>
+                <button type="button" class="btn btn-success m-5" onclick="changeMEMFS()">change MEMFS</button>
+
+            </div>
+
+        </div>
+    </div>
+    </div>
+    <div id="plot" class="modal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">plot</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="mpl-target"></div>
+
+            </div>
+        </div>
+    </div>
+
+    <template id="folder_template">
+        <details class="folder">
+            <summary class="folder_title  alldir text-truncate"></summary>
+
+        </details>
+    </template>
+
+    <template id="file_template">
+        <div class="file alldir text-truncate"><i class="bi"></i></div>
+    </template>
+
+
+
     <script src="https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js"></script>
     <script type="module"
         src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/components/split-panel/split-panel.js"></script>
+    <script type="module"
+        src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/components/alert/alert.js"></script>
+    <script type="module"
+        src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/components/icon/icon.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>var require = { paths: { 'vs': "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.46.0/min/vs" } };</script>
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.46.0/min/vs/loader.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.46.0/min/vs/editor/editor.main.nls.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.46.0/min/vs/editor/editor.main.js"></script>
-    
+
     <script src="pyodide_execute.js"></script>
     <script src="editor.js"></script>
 
-
-
-
-
     <script>
+        var support_plain = ["py", "html", "txt", "csv", "json", "js"]
+        var support_image = ["png", "jpg", "jpeg", "gif", "bmp", "svg"]
+        var support_extensions = support_plain.concat(support_image);
+        var focus_dir_id = "folderlist";
+        var now_open_file = "";
+        var fullscreen = false;
+        var chat_flg = false;
+        var plot_modal = new bootstrap.Modal(document.getElementById('plot'), {
+            keyboard: false
+        });
+        var startFS_modal = new bootstrap.Modal(document.getElementById('startFS'), {
+            keyboard: false
+        });
+        //modalが閉じられた時に実行
+        document.getElementById('plot').addEventListener('hidden.bs.modal', function (e) {
+            document.pyodideMplTarget.innerHTML = "";
+        });
+
+
+        document.pyodideMplTarget = document.getElementById('mpl-target');
+        //folderlist内部の要素をクリックした時に実行
+        document.getElementById('folderlist').onclick = async function (e) {
+            let target = e.target;
+
+            //alldir_clickクラスを持つ要素がある場合は、クラスを削除
+            let alldir_click = document.getElementsByClassName('alldir_click');
+            for (let i = 0; i < alldir_click.length; i++) {
+                alldir_click[i].classList.remove('alldir_click');
+            }
+            //クリックした要素にalldirクラスを追加
+            if (target.tagName == "SUMMARY") {
+                target.classList.add('alldir_click');
+                target = target.parentElement;
+
+            }
+            else {
+                target.classList.add('alldir_click');
+            }
+            focus_dir_id = target.id;
+
+
+        };
+
+        //p-folderをクリックしたときのみ(子要素は無視)全てのをフォーカスを外す
+        document.getElementById('p-folder').onclick = function (e) {
+            let target = e.target;
+            if (target.id == "p-folder") {
+                let alldir_click = document.getElementsByClassName('alldir_click');
+                for (let i = 0; i < alldir_click.length; i++) {
+                    alldir_click[i].classList.remove('alldir_click');
+                }
+                focus_dir_id = "folderlist";
+
+            }
+
+        };
+        //画面が遷移する時に警告を表示
+        window.addEventListener('beforeunload', function (e) {
+            let txt = ""
+            //titleに*が含まれている場合は、txtに変更
+            if (document.title.includes("*")) {
+                txt += "\n・ファイルが変更されています。";
+            }
+            //pyexecuter.sybchronizationがfalseの場合は、txtに変更
+            //if (!sybchronization) {
+            //    txt += "\n・ファイルの同期がされていません。";
+            //}
+            //txtが空でない場合は、警告を表示
+            console.log(txt);
+            if (txt != "") {
+                e.preventDefault();
+                txt = "以下の理由でページを離れようとしています。\n" + txt;
+                e.returnValue = txt;
+            }
+            if (settings["file_system"] != "NATIVEFS" && !pyexecuter.synchronization) {
+                e.preventDefault();
+                e.returnValue = "ファイルの同期がされていません。";
+            }
+
+
+        });
+
+        //ctrl+sが押された時に実行
+        document.onkeydown = function (e) {
+            if (e.ctrlKey && e.key == "s") {
+                e.preventDefault();
+                //now_open_fileの拡張子を取得
+                let ext = now_open_file.split(".");
+                ext = ext[ext.length - 1];
+                //plainファイルの場合は、save_fileを実行
+                if (support_plain.includes(ext)) {
+                    let content = getEditorText();
+                    let path = path_remove_folderlist(now_open_file);
+                    save_file(path, content);
+                    //*を削除
+
+                }
+                else {
+                    show_alert("このファイルの保存はサポートされていません。", {});
+                }
+            }
+        };
+
+
+        //fileを読み込んだら
+        document.getElementById('read_local_file').onchange = async function (e) {
+            //fileが読み込まれているか
+            if (e.target.files.length == 0) {
+                return;
+            }
+            let file = e.target.files[0];
+            let reader = new FileReader();
+            //10mb以上のファイルは読み込まない
+            if (file.size > 10 * 1024 * 1024) {
+                show_alert("ファイルサイズが大きすぎます。", {});
+                return;
+            }
+
+            //ファイルは画像や動画などのバイナリファイルの場合は、readAsArrayBufferを使用
+            reader.readAsArrayBuffer(file);
+            reader.onload = async function () {
+                //読み込んだファイルをUint8Arrayに変換
+                let result = reader.result;
+                console.log(result);
+                let file_name = file.name;
+                //focus_dir_idの先頭のfileならば、dir_pathを取得
+                let dir_path = path_to_dirpath(focus_dir_id);
+                //folderlistを削除
+                dir_path = path_remove_folderlist(dir_path);
+                let full_path = dir_path + "/" + file_name;
+                //先頭に/がある場合は削除
+                if (full_path[0] == "/") {
+                    full_path = full_path.slice(1);
+                }
+                //Uint8Arrayに変換
+
+                let ext = file_name.split(".");
+                ext = ext[ext.length - 1];
+                if (support_plain.includes(ext)) {
+                    save_file(full_path, new TextDecoder().decode(result));
+                } else {
+                    save_file(full_path, new Uint8Array(result));
+                }
+                await reloadFileFolder();
+                //ファイルの中身を空にする
+                document.getElementById('read_local_file').value = "";
+            }
+
+
+        };
+
+
+        function view_setting() {
+
+            console.log(settings);
+            if ('showOpenFilePicker' in window && 'showSaveFilePicker' in window) {
+                console.log('Native File System APIが使用可能です');
+            } else {
+                console.log('Native File System APIは使用できません');
+                //NAVITEFSを削除
+                document.getElementById('file_system').removeChild(document.getElementById('file_system').querySelector('option[value="NATIVEFS"]'));
+            }
+            document.querySelectorAll('.settings').forEach(element => {
+                const id = element.id;
+
+                if (element.tagName === 'INPUT') {
+
+                    // inputの場合
+                    element.addEventListener('input', function () {
+                        settings[id] = this.value;
+                        save_data();
+                    });
+                    //settingsの値を代入
+                    element.value = settings[id];
+                } else if (element.tagName === 'SELECT') {
+                    // selectの場合 
+                    element.addEventListener('change', function () {
+                        settings[id] = this.value;
+                        if (id == "theme") {
+                            console.log(this.value);
+                            changeTheme(this.value);
+                        }
+                        if (id == "file_system") {
+
+                            show_alert("この変更を適用するには、ページをリロードしてください。", { error: false });
+                        }
+                        save_data();
+                    });
+                    //settingsの値を代入
+                    element.value = settings[id];
+                }
+                else if (element.tagName === 'TEXTAREA') {
+
+                    element.addEventListener('keydown', function (event) {
+                        if (event.key != "Enter") {
+                            return;
+                        }
+                        pypackeges = this.value.split(",");
+                        error_packeges = [];
+                        install_packeges = [];
+                        for (let i = 0; i < pypackeges.length; i++) {
+                            if (!AVAILABLE_PACKEGES.includes(pypackeges[i])) {
+                                error_packeges.push(pypackeges[i]);
+                            }
+                            else {
+                                install_packeges.push(pypackeges[i]);
+                            }
+                        }
+                        if (error_packeges.length != 0) {
+                            show_alert(`次のパッケージは存在しません。[${error_packeges.join(",")}]`, {});
+                        }
+
+                        settings[id] = install_packeges;
+                        pyexecuter.installPackage(install_packeges);
+
+                        save_data();
+                    });
+                    //settingsの値を,で区切って代入
+                    console.log(settings[id]);
+                    element.value = settings[id].join(",");
+                }
+                else if (element.tagName === 'BUTTON') {
+                    // buttonの場合
+                    element.addEventListener('click', function () {
+                        if (id == "IDBFS_save") {
+                            settings["IDBFS_save"] = false;
+                            save_data();
+                        }
+                    });
+
+                }
+
+            });
+
+        }
+
+
+
+
+
         //画面のリサイズ時に実行
         window.onresize = function () {
             //model.layout();
@@ -173,29 +859,455 @@
         //初期化
         window.onload = async function () {
             monacoSetup();
-            await loadPyodide();
+            if (settings["file_system"] != "NATIVEFS") {
+                await pyodideSetup(null, (err) => {
+                    if (err) {
+                        show_alert("IDBFSの読み込みに失敗しました。", {});
+                    }
+                    else {
+                        reloadFileFolder();
+                        console_print("Successful reading from IDBFS file system.", { log: true });
+                    }
+                });
+                view_setting();
+            }
+            else {
+                startFS_modal.show();
+            }
 
-            
-            
+
         };
 
-        //consoleの出力を行う
-        function console_print(text, { error = false }) {
-            let console_ele = document.getElementById('console');
+        async function nativeFS_open() {
+            const dirHandle = await showDirectoryPicker();
+            const permissionStatus = await dirHandle.requestPermission({
+                mode: "readwrite",
+            });
 
-            if (error) {
-                console_ele.innerHTML += `<p style="color:red;">${text}</p>`;
-            } else {
-                console_ele.innerHTML += `<p>${text}</p>`;
+            if (permissionStatus !== "granted") {
+                throw new Error("readwrite access to directory not granted");
             }
-            console_ele.scrollTop = consoleElement.scrollHeight;
+
+            await pyodideSetup(dirHandle
+                , (err) => {
+                    console_print("Successful reading from nativeFS file system.", { log: true });
+
+                    startFS_modal.hide();
+
+                });
+            reloadFileFolder();
+            view_setting();
+
+            document.pyodideMplTarget = document.getElementById('mpl-target');
+
+        }
+
+        //強制的にMEMFSに変更
+        function changeMEMFS() {
+            settings["file_system"] = "MEMFS";
+            save_data();
+            //強制リロード
+            location.reload();
+        }
+
+        function fullScreenChange() {
+            if (!fullscreen) {
+                document.body.requestFullscreen();
+            }
+            else {
+                document.exitFullscreen();
+            }
+            fullscreen = !fullscreen;
+        }
+
+        function open_chat() {
+            if (chat_flg) {
+                document.getElementById("editor_chat").position = 60;
+            }
+            else {
+                document.getElementById("editor_chat").position = 100;
+            }
+            chat_flg = !chat_flg;
+        }
+
+        //consoleの出力を行う
+        function console_print(text, { error = false, log = false }) {
+            let consoleElement = document.getElementById('console');
+
+            //\nを<br>に変換
+            text = text.replaceAll("\n", "<br>");
+
+            if (log) {
+                text = ">" + text;
+            }
+            if (error) {
+                //明るい赤色
+                consoleElement.innerHTML += `<p style="color:#FF3333">${text}</p>`;
+            } else {
+                consoleElement.innerHTML += `<p>${text}</p>`;
+            }
+            consoleElement.scrollTop = consoleElement.scrollHeight;
+        }
+
+        function path_to_dirpath(path) {
+            let new_dir_path = path;
+            let tmp = path.split("/");
+            if (tmp[tmp.length - 1].includes(".")) {
+                new_dir_path = new_dir_path.slice(0, new_dir_path.lastIndexOf("/"));
+            }
+            return new_dir_path;
+        }
+        function open_datail(path) {
+            let new_path = path_to_dirpath(path);
+            new_path = new_path.split("/");
+            let new_path_id = "folderlist";
+            for (let i = 1; i < new_path.length; i++) {
+                new_path_id = new_path_id + "/" + new_path[i];
+                document.getElementById(new_path_id).open = true;
+            }
+        }
+
+        //folderlistを削除
+        function path_remove_folderlist(path) {
+            let new_path = path.split("/");
+            new_path = new_path.slice(1);
+            return new_path.join("/");
+        }
+
+        function event_input() {
+            document.getElementById('read_local_file').click();
+        }
+
+
+        //plainファイルのみ使用可能
+        function save_file(path, content) {
+
+            //拡張子を取得
+            let ext = path.split(".");
+            ext = ext[ext.length - 1];
+            //拡張子がplainの場合、createFileStringを使用
+            if (support_plain.includes(ext)) {
+                pyexecuter.createFileString(path, content);
+
+            }
+            else {
+                pyexecuter.createFile(path, content);
+            }
+            document.title = "py-webiter"
+
+        }
+
+        //ファイルを同期する
+        async function sync_file(path) {
+            await pyexecuter.FileSystemSynchronization(false, {
+                callback: function (err) {
+                    if (err) {
+                        show_alert("ファイルの同期に失敗しました。", {});
+                    }
+                    else {
+                        show_alert("ファイルの同期に成功しました。", { error: false });
+
+                        if (settings["file_system"] == "IDBFS") {
+                            settings["IDBFS_save"] = true;
+                            save_data();
+                        }
+                    }
+                }
+            });
+        }
+
+        async function python_run() {
+            //now_open_fileの拡張子を取得
+            let ext = now_open_file.split(".");
+            ext = ext[ext.length - 1];
+            //pythonファイルでない場合は、エラーを表示
+            if (ext != "py") {
+                show_alert("このファイルの実行はサポートされていません。", {});
+                return;
+            }
+            //editorの内容を取得
+            let content = getEditorText();
+            //folderlistの先頭のfolderlistを削除
+            let path = path_remove_folderlist(now_open_file);
+            //pyodideに渡す
+            save_file(path, content);
+            console_print(`Run the python file at "${path}"`, { log: true });
+            let run_result = await pyexecuter.run_file(path);
+            if (run_result[0] == 0) {
+                console_print(run_result[1], {});
+            }
+            else {
+                run_result[1] = run_result[1].split("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")[1];
+                console_print(run_result[1], { error: true });
+            }
+            //mpl-targetが空でない場合は、plot_modalを表示
+            if (document.pyodideMplTarget.innerHTML != "") {
+                plot_modal.show();
+            }
+
+
+
+        }
+
+        function newinput() {
+            let new_file_folder = document.createElement('input');
+            new_file_folder.type = "text";
+            new_file_folder.id = "new_file_folder";
+            new_file_folder.style.paddingLeft = "5px";
+            let new_dir_path = path_to_dirpath(focus_dir_id);
+            document.getElementById(new_dir_path).appendChild(new_file_folder);
         }
 
 
 
-        function run() {
+        function newFile() {
+            newinput();
+            let new_file_folder = document.getElementById('new_file_folder');
+            open_datail(focus_dir_id);
+            new_file_folder.focus();
+
+            //enterキーが押された時に実行
+            new_file_folder.onkeypress = async function (e) {
+
+                if (e.key == "Enter") {
+                    //ファイル名を取得
+                    let file_name = new_file_folder.value;
+                    let regex = /^[a-zA-Z0-9]+\.[a-zA-Z]+$/;
+                    //正規表現のチェック
+                    if (!regex.test(file_name)) {
+                        show_alert("ファイル名が不正です。", {});
+                        new_file_folder.hidden = true;
+                        return;
+                    }
+                    let dir_path = path_to_dirpath(focus_dir_id);
+
+                    //ファイル名に拡張子がない場合は、
+                    let full_path = path_remove_folderlist(dir_path) + "/" + file_name;
+                    //先頭に/がある場合は削除
+                    if (full_path[0] == "/") {
+                        full_path = full_path.slice(1);
+                    }
+
+                    save_file(full_path, "");
+                    new_file_folder.hidden = true;
+                    await reloadFileFolder();
+                }
+            }
+            //fucusが外れた時に実行
+            new_file_folder.onblur = function () {
+                new_file_folder.remove();
+            }
+        }
+
+
+
+
+
+
+
+
+        function newFolder() {
+            newinput();
+            let new_file_folder = document.getElementById('new_file_folder');
+            open_datail(focus_dir_id);
+            new_file_folder.focus();
+
+            //enterキーが押された時に実行
+            new_file_folder.onkeypress = async function (e) {
+                if (e.key == "Enter") {
+                    //ファイル名を取得
+                    let file_name = new_file_folder.value;
+                    let regex = /^[a-zA-Z0-9]+$/;
+                    //正規表現のチェック
+                    if (!regex.test(file_name)) {
+                        show_alert("フォルダ名が不正です。", {});
+                        new_file_folder.hidden = true;
+                        return;
+                    }
+                    //ファイル名に拡張子がない場合は、
+                    //focus_dir_idの先頭のfolderlistを削除
+
+                    let new_dir_path = focus_dir_id.replace("folderlist", "");
+                    //最後がファイル名の場合は、
+                    new_dir_path = path_to_dirpath(new_dir_path);
+                    let full_path = new_dir_path + "/" + file_name;
+                    //先頭に/がある場合は削除
+                    if (full_path[0] == "/") {
+                        full_path = full_path.slice(1);
+                    }
+                    full_path = "./" + full_path;
+
+                    await pyexecuter.createFolder(full_path);
+                    new_file_folder.hidden = true;
+                    await reloadFileFolder();
+                }
+            }
+            //fucusが外れた時に実行
+            new_file_folder.onblur = function () {
+                //new_file_folderを削除
+                new_file_folder.remove();
+            }
 
         }
+
+        async function reloadFileFolder() {
+            let listtree = await pyexecuter.listTree();
+            //'を"に変換する
+            listtree = listtree.replaceAll(`'`, `"`);
+
+            listtree = JSON.parse(listtree);
+            listtree = listtree["path"];
+            let folderlist = document.getElementById('folderlist');
+            folderlist.innerHTML = "";
+            listtree = listtree.map((item) => {
+                return item.split("/");
+            });
+            listtree.sort((a, b) => {
+                ap = 0;
+                bp = 0;
+                if (a[a.length - 1].includes(".")) {
+                    ap = 1;
+                }
+                if (b[b.length - 1].includes(".")) {
+                    bp = 1;
+                }
+                if (a.length - ap > b.length - bp) {
+                    return -1;
+                } else if (a.length - ap < b.length - bp) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            });
+
+            for (let i = 0; i < listtree.length; i++) {
+                let path = listtree[i];
+                path_id = "folderlist";
+                for (let j = 1; j < path.length; j++) {
+                    if (path[j].includes(".") && j == path.length - 1) {
+                        //<div class="file"><i class="bi bi-filetype-拡張子"></i> ファイル名</div>
+                        let ext = path[j].split(".");
+                        ext = ext[ext.length - 1];
+
+                        let template = document.getElementById('file_template');
+                        let clone = template.content.cloneNode(true);
+                        if (support_extensions.includes(ext)) {
+                            clone.querySelector('i').classList.add("bi-filetype-" + ext);
+                        } else {
+                            clone.querySelector('i').classList.add("bi-file-earmark");
+                        }
+                        clone.querySelector('.file').innerHTML += path[j];
+                        //divにidを付与
+                        //.を_に変換
+                        let file_id = path_id + "/" + path[j]
+                        clone.querySelector('.file').id = file_id;
+                        //onclickイベントを追加
+                        clone.querySelector('.file').onclick = function () {
+                            openFile(file_id, ext);
+                        }
+                        document.getElementById(path_id).appendChild(clone);
+                    } else {
+                        //path_id-path[j]のidを持つ要素があるかどうか
+                        let p_path_id = path_id;
+                        path_id = path_id + "/" + path[j];
+                        if (document.getElementById(path_id)) {
+                            continue;
+                        }
+
+                        let template = document.getElementById('folder_template');
+                        let clone = template.content.cloneNode(true);
+                        clone.querySelector('details').id = path_id;
+                        let summary = clone.querySelector('summary');
+                        summary.innerHTML = path[j];
+                        document.getElementById(p_path_id).appendChild(clone);
+
+                    }
+                }
+
+            }
+            open_datail(focus_dir_id);
+        }
+
+        function change_frame(tag_id) {
+            if (tag_id == "editor") {
+                document.getElementById('editor').hidden = false;
+                document.getElementById('image_fram').hidden = true;
+                document.getElementById('show_img').hidden = true;
+                document.getElementById('setting_fram').hidden = true;
+            } else if (tag_id == "image_fram") {
+                document.getElementById('editor').hidden = true;
+                document.getElementById('image_fram').hidden = false;
+                document.getElementById('show_img').hidden = false;
+                document.getElementById('setting_fram').hidden = true;
+            } else if (tag_id == "setting_fram") {
+                document.getElementById('editor').hidden = true;
+                document.getElementById('image_fram').hidden = true;
+                document.getElementById('show_img').hidden = true;
+                document.getElementById('setting_fram').hidden = false;
+            }
+        }
+
+
+
+
+
+
+
+        function openFile(path, ext) {
+            //support_extensionsに拡張子が含まれているかどうか
+            if (!support_extensions.includes(ext)) {
+                show_alert("このファイルはサポートされていません。", {});
+                return;
+            }
+
+            //先頭に./を追加
+            new_path = "./" + path_remove_folderlist(path);
+            //contentを取得
+            let content = pyexecuter.readFile(new_path);
+
+
+            //extがsupport_plainに含まれている場合は、editorを表示
+            if (support_plain.includes(ext)) {
+
+                content = new TextDecoder().decode(content);
+                //languageを取得
+                changeLanguage(ext);
+                //editorにcontentを表示
+                setEditorText(content);
+                change_frame("editor");
+                //now_open_fileにpathを代入
+                document.title = "py-webiter"
+                now_open_file = path;
+            } else {
+                //contentはUint8Arrayでid=image_framに表示
+                let blob = new Blob([content], { type: "image/png" });
+                let url = URL.createObjectURL(blob);
+                document.getElementById('show_img').style.backgroundImage = `url(${url})`;
+                change_frame("image_fram");
+                //now_open_fileにpathを代入
+                now_open_file = path;
+            }
+
+
+        }
+
+        function show_alert(msg, { error = true }) {
+            let alert = null;
+            if (error) {
+                alert = document.getElementById('p-alert');
+            } else {
+                alert = document.getElementById('p-alert_info');
+            }
+
+            /*alert_bodyにmsgを表示*/
+            alert.querySelector('.alert-body').innerHTML = msg;
+            alert.style.transform = "translateY(25vh)";
+            //2秒後にalertの位置を元に戻す
+            setTimeout(() => {
+                alert.style.transform = "translateY(-25vh)";
+            }, 2000);
+        }
+
     </script>
 
 </body>

@@ -1,15 +1,22 @@
+var support_extention={"py":"python","html":"html","csv":"csv","json":"json","xml":"xml","txt":"txt"}
+var model;
 function monacoSetup() {
 
 
 
 
-  var model = monaco.editor.create(document.getElementById("editor"), {
+  model = monaco.editor.create(document.getElementById("editor"), {
     language: 'python',
     value: 'print("Hello, world")\n',
     automaticLayout: true,
-    theme: "vs-dark",
+    theme: settings["theme"],
   });
 
+  model.onDidChangeModelContent(function (e) {
+    //titleに*を追加
+    document.title = "* py-webiter";
+});
+  
   monaco.languages.registerCompletionItemProvider("python", {
     triggerCharacters: ["."],
     provideCompletionItems: function (model, position) {
@@ -193,10 +200,36 @@ function monacoSetup() {
       }
     },
   });
+}
 
+function changeLanguage(language) { 
+  //languageがsupport_extentionに含まれているか確認
+  //support_extentionのkeyを取得
+  let keys = Object.keys(support_extention);
 
+  //keyの中にlanguageが含まれているか確認
+  if(keys.includes(language)){
+    language = support_extention[language];
+  }
+  else{
+    //コンソールにエラー送出
+    console.error("Not supported language");
 
+  }
+  
+  monaco.editor.setModelLanguage(model.getModel(), language);
+}
 
+function getEditorText() {
+  return model.getValue();
+}
+
+function setEditorText(text) {
+  model.setValue(text);
+}
+
+function changeTheme(theme) {
+  monaco.editor.setTheme(theme);
 }
 
 
